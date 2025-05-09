@@ -51,7 +51,7 @@ class Usermanager:
 
     def save_user(self, user : User) -> None:
         """
-        This function will append any new users to the CSV File
+        This function will append any new users to the CSV File.
 
         :param user: User object to add
         """
