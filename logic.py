@@ -5,7 +5,14 @@ from User import  *
 
 
 class Logic(QMainWindow, Ui_MainWindow):
+    """
+    Handles logic for ATM interface
+    """
     def __init__(self):
+        """
+        Initialize the main window, set up UI elements,
+        connect buttons to functions, and load existing users.
+        """
         super().__init__()
         self.setupUi(self)
 
@@ -21,6 +28,11 @@ class Logic(QMainWindow, Ui_MainWindow):
 
 
     def post_login_elements(self, visible):
+        """
+        Show or hide UI elements that should only appear after login.
+
+        Args: visible (bool): Whether the post-login widgets should be visible.
+        """
         self.radioButton_withdraw.setVisible(visible)
         self.radioButton_deposit.setVisible(visible)
         self.label_5.setVisible(visible)
@@ -34,13 +46,14 @@ class Logic(QMainWindow, Ui_MainWindow):
         """
         This will check that the information is correct when
         someone tries to log in
-        :return:
+        shows balance if successful or error if login fails
+
         """
         first_name = self.entrybox_user_firstname.text().strip().lower()
         last_name = self.entrybox_user_lastname.text().strip().lower()
         pin = self.entrybox_user_pin.text().strip().lower()
 
-        key = (first_name, last_name)
+        key = (first_name, last_name) # Uses first and last names to verify pin
         accounts = self.manager.accounts
 
         if key in accounts and accounts[key].get_pin() == pin:
@@ -57,6 +70,11 @@ class Logic(QMainWindow, Ui_MainWindow):
 
 
     def add_user(self):
+        """
+        Register a new user with a first name, last name, and PIN.
+        Shows a success message if created, or an error if
+        user already exists or fields are empty.
+        """
         first_name = self.entrybox_user_firstname.text().strip().lower()
         last_name = self.entrybox_user_lastname.text().strip().lower()
         pin = self.entrybox_user_pin.text().strip().lower()
@@ -76,6 +94,10 @@ class Logic(QMainWindow, Ui_MainWindow):
 
 
     def enter(self):
+        """
+        Handles deposits or withdrawals based on the radio button selected
+        validates transaction and updates UI
+        """
         transaction_amount_text = self.entrybox_amount.toPlainText().strip()
         if not transaction_amount_text.isdigit():
             self.label_acount_balance_error.setText("Please enter a valid number")
@@ -110,4 +132,7 @@ class Logic(QMainWindow, Ui_MainWindow):
 
 
     def close_window(self):
+        """
+        Close the application window.
+        """
         self.close()
